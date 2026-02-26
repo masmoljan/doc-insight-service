@@ -41,7 +41,9 @@ services:
 
   cleanup:
     container_name: cleanup-sessions
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.cleanup
     command: ["python", "scripts/cleanup_sessions.py"]
     environment:
       SESSION_CLEANUP_INTERVAL_MINUTES: ${SESSION_CLEANUP_INTERVAL_MINUTES:-60}

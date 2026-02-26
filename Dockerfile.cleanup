@@ -1,0 +1,8 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY requirements.cleanup.txt .
+RUN pip install --no-cache-dir -r requirements.cleanup.txt
+
+COPY scripts/cleanup_sessions.py ./scripts/cleanup_sessions.py
