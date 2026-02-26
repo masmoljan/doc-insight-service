@@ -181,7 +181,6 @@ For configuration I used pydantic-settings to simplify configuration handling, s
 **UI prototype**</br>
 I used Streamlit to quickly prototype a simple UI for uploading documents and asking questions against the API endpoints.
 
-
 </details>
 
 ## Ideas for future improvements
