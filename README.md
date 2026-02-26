@@ -15,6 +15,9 @@ FastAPI service that ingests PDFs/images, stores embeddings in vector database a
 - Streamlit demo UI
 - CI: lint + Docker build
 
+## Prerequisites
+- Python 3.12.x
+
 ## Setup
 Before running the api, create the `.env` file with the required variables:
 ```
