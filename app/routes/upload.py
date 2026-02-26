@@ -32,14 +32,14 @@ FILES_PARAM = File(...)
 USER_ID_DEPENDENCY = Depends(get_current_user_id)
 MAX_FILENAME_LENGTH = 255
 
+
 class SchemaUploadFile(UploadFile):
     @classmethod
     def __get_pydantic_json_schema__(
-        cls,
-        core_schema: Mapping[str, Any],
-        handler: GetJsonSchemaHandler
+        cls, core_schema: Mapping[str, Any], handler: GetJsonSchemaHandler
     ) -> dict[str, Any]:
         return {"type": "string", "format": "binary"}
+
 
 @router.post("/upload", status_code=status.HTTP_201_CREATED)
 @limiter.limit(app_config.rate_limit_upload)
@@ -131,7 +131,7 @@ async def upload_files(
             {
                 "content_type": file.content_type,
                 "text": text,
-                "metadata": metadata
+                "metadata": metadata,
             }
         )
 
