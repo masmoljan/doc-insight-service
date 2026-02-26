@@ -6,6 +6,7 @@ from slowapi.util import get_remote_address
 from app.config import app_config
 from app.utils.auth_utils import JWT_SECRET
 
+
 def get_user_id_from_request(request: Request) -> str | None:
     auth_header = request.headers.get("authorization")
     if not auth_header:

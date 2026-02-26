@@ -32,6 +32,7 @@ def get_auth_headers() -> dict[str, str]:
     token_value = st.session_state.jwt_token.strip()
     return {"Authorization": f"Bearer {token_value}"} if token_value else {}
 
+
 st.title("Document Ingestion Service")
 
 with st.sidebar:
@@ -41,8 +42,7 @@ with st.sidebar:
 
 st.subheader("Upload Document(s)")
 st.caption(
-    f"Max {MAX_FILES} files per upload. "
-    f"Max {MAX_FILE_SIZE_MB:g} MB per file."
+    f"Max {MAX_FILES} files per upload. Max {MAX_FILE_SIZE_MB:g} MB per file."
 )
 st.file_uploader(
     "Upload PDFs or images",
@@ -56,6 +56,7 @@ st.text_input(
     key="session_id_input",
 )
 
+
 def handle_upload() -> None:
     st.session_state.upload_error = ""
     st.session_state.upload_status = None
@@ -67,8 +68,7 @@ def handle_upload() -> None:
         return
 
     files_payload = [
-        ("files", (file.name, file.getvalue(), file.type))
-        for file in files
+        ("files", (file.name, file.getvalue(), file.type)) for file in files
     ]
 
     session_id_value = st.session_state.session_id_input.strip()
@@ -90,7 +90,9 @@ def handle_upload() -> None:
     try:
         payload = resp.json()
     except ValueError:
-        st.session_state.upload_error = "Upload failed: response was not valid JSON."
+        st.session_state.upload_error = (
+            "Upload failed: response was not valid JSON."
+        )
         return
 
     st.session_state.upload_response = payload
@@ -101,6 +103,7 @@ def handle_upload() -> None:
             st.session_state.session_id_input = session_id
         if document_ids:
             st.session_state.document_ids_input = ", ".join(document_ids)
+
 
 st.button("Upload", on_click=handle_upload)
 
@@ -128,8 +131,12 @@ if st.button("Ask") and question.strip():
 
     document_ids_value = st.session_state.document_ids_input.strip()
     if document_ids_value:
-        raw_ids = [d.strip() for d in document_ids_value.split(",") if d.strip()]
-        invalid_ids = [raw_id for raw_id in raw_ids if not is_valid_uuid(raw_id)]
+        raw_ids = [
+            d.strip() for d in document_ids_value.split(",") if d.strip()
+        ]
+        invalid_ids = [
+            raw_id for raw_id in raw_ids if not is_valid_uuid(raw_id)
+        ]
         if invalid_ids:
             st.error(f"Invalid document ID(s): {', '.join(invalid_ids)}")
             st.stop()

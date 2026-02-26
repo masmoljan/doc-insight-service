@@ -18,6 +18,7 @@ from app.utils.rate_limit import limiter
 configure_logging()
 logger = structlog.get_logger(__name__)
 
+
 def run_migrations() -> None:
     alembic_cfg = Config(str(Path(__file__).resolve().parent / "alembic.ini"))
     command.upgrade(alembic_cfg, "head")
@@ -28,11 +29,13 @@ async def lifespan(_: FastAPI):
     run_migrations()
     yield
 
+
 app = FastAPI(lifespan=lifespan)
 
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.middleware("http")(log_requests)
+
 
 @app.exception_handler(AppError)
 async def handle_app_error(request: Request, exc: AppError) -> JSONResponse:

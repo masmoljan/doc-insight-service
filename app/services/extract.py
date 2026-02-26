@@ -10,7 +10,8 @@ from PIL import Image
 from app.services.errors import TextExtractionError, UnsupportedContentTypeError
 from app.utils import ErrorMessages
 
-reader = easyocr.Reader(['en'])
+reader = easyocr.Reader(["en"])
+
 
 def extract_text_from_pdf(file_bytes: bytes) -> tuple[str, dict[str, Any]]:
     doc = None
@@ -40,6 +41,7 @@ def extract_text_from_pdf(file_bytes: bytes) -> tuple[str, dict[str, Any]]:
         if doc is not None:
             doc.close()
 
+
 def extract_text_from_image(file_bytes: bytes) -> tuple[str, dict[str, Any]]:
     try:
         with Image.open(io.BytesIO(file_bytes)) as img:
@@ -55,6 +57,7 @@ def extract_text_from_image(file_bytes: bytes) -> tuple[str, dict[str, Any]]:
             }
     except Exception as error:
         raise TextExtractionError from error
+
 
 def extract_text(
     file_bytes: bytes,

@@ -46,12 +46,6 @@ API_BASE_URL=http://localhost:8000
 ```
 
 ## Installation and running
-Local (venv):
-```bash
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload
-```
 
 Docker:
 ```bash
@@ -60,7 +54,15 @@ docker compose up --build
 Docker requires `REDIS_PASSWORD` to be set in `.env`.
 Docker uses `DATABASE_URL_DOCKER` (if set) or defaults to the `db` hostname.
 
+Local (venv):
+```bash
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
 ## Streamlit demo
+`Streamlit has to be installed locally or in virutal environment`
 ```bash
 streamlit run ui/streamlit.py
 ```

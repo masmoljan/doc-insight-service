@@ -20,6 +20,7 @@ class RegisterRequest(BaseModel):
     email: EmailStr
     password: str = Field(min_length=8, max_length=128)
 
+
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 @limiter.limit(app_config.rate_limit_auth_register)
 def register(request: Request, payload: RegisterRequest):
@@ -45,6 +46,7 @@ def register(request: Request, payload: RegisterRequest):
 class TokenRequest(BaseModel):
     email: EmailStr
     password: str = Field(min_length=8, max_length=128)
+
 
 @router.post("/token", status_code=status.HTTP_200_OK)
 @limiter.limit(app_config.rate_limit_auth_token)

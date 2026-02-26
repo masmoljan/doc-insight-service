@@ -32,4 +32,6 @@ class EmbeddedDocument(SQLModel, table=True):
             index=True,
         ),
     )
-    embedding: list[float] | None = Field(default=None, sa_column=Column(Vector(1536)))
+    embedding: list[float] | None = Field(
+        default=None, sa_column=Column(Vector(1536))
+    )

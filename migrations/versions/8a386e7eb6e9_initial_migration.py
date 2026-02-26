@@ -1,17 +1,18 @@
 """initial migration
 
 Revision ID: 8a386e7eb6e9
-Revises: 
+Revises:
 Create Date: 2026-02-19 15:39:58.230549
 
 """
+
 from typing import Sequence, Union
 
 from alembic import op
 
 
 # revision identifiers, used by Alembic.
-revision: str = '8a386e7eb6e9'
+revision: str = "8a386e7eb6e9"
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None

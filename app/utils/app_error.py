@@ -3,6 +3,7 @@ from enum import Enum
 
 from fastapi import status
 
+
 class AppErrorType(Enum):
     INVALID_CREDENTIALS = "invalid_credentials"
     USER_ALREADY_EXISTS = "user_already_exists"

@@ -23,6 +23,7 @@ from app.services.errors import (
 
 openAIEmbeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
+
 def build_embedded_records(
     documents: list[tuple[UUID, str]],
 ) -> list[EmbeddedDocument]:
@@ -71,6 +72,7 @@ def build_embedded_records(
 
     return records
 
+
 def insert_documents(
     session_id: UUID | None,
     user_id: UUID | None,
@@ -103,6 +105,7 @@ def insert_document_chunks(documents: list[tuple[UUID, str]]) -> None:
     with Session(engine) as session:
         session.add_all(records)
         session.commit()
+
 
 def insert_documents_with_chunks(
     session_id: UUID | None,
@@ -137,6 +140,7 @@ def insert_documents_with_chunks(
 
     return document_ids
 
+
 def get_relevant_documents(
     query: str,
     k: int = 5,
@@ -157,7 +161,9 @@ def get_relevant_documents(
             if user_id:
                 doc_statement = doc_statement.where(Document.user_id == user_id)
             else:
-                doc_statement = doc_statement.where(Document.session_id == session_id)
+                doc_statement = doc_statement.where(
+                    Document.session_id == session_id
+                )
             doc_statement = doc_statement.where(Document.id.in_(requested_ids))
             existing_ids = set(session.exec(doc_statement).all())
             missing_ids = requested_ids - existing_ids
@@ -168,9 +174,8 @@ def get_relevant_documents(
             query_embedding = openAIEmbeddings.embed_query(query)
         except Exception as error:
             raise EmbeddingGenerationError from error
-        statement = (
-            select(EmbeddedDocument)
-            .join(Document, EmbeddedDocument.document_id == Document.id)
+        statement = select(EmbeddedDocument).join(
+            Document, EmbeddedDocument.document_id == Document.id
         )
 
         if user_id:
@@ -181,10 +186,9 @@ def get_relevant_documents(
         if document_ids:
             statement = statement.where(Document.id.in_(document_ids))
 
-        statement = (
-            statement.order_by(EmbeddedDocument.embedding.cosine_distance(query_embedding))
-            .limit(k)
-        )
+        statement = statement.order_by(
+            EmbeddedDocument.embedding.cosine_distance(query_embedding)
+        ).limit(k)
         results = session.exec(statement).all()
 
     return [

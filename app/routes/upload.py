@@ -82,7 +82,9 @@ async def upload_files(
         if len(file_bytes) > app_config.upload_max_file_size_bytes:
             raise AppError(
                 AppErrorType.FILE_TOO_LARGE,
-                message=ErrorMessages.FILE_TOO_LARGE.format(filename=file.filename),
+                message=ErrorMessages.FILE_TOO_LARGE.format(
+                    filename=file.filename
+                ),
             )
 
         try:
@@ -127,7 +129,9 @@ async def upload_files(
         }
         for extracted_doc in extracted_documents
     ]
-    document_texts = [extracted_doc["text"] for extracted_doc in extracted_documents]
+    document_texts = [
+        extracted_doc["text"] for extracted_doc in extracted_documents
+    ]
     try:
         inserted_document_ids = insert_documents_with_chunks(
             session_id=session_id,
@@ -140,11 +144,11 @@ async def upload_files(
 
     response = {
         "message": ResponseMessages.FILES_UPLOADED,
-        "document_ids": [str(document_id) for document_id in inserted_document_ids],
+        "document_ids": [
+            str(document_id) for document_id in inserted_document_ids
+        ],
     }
     if not user_id:
         response["session_id"] = str(session_id)
 
     return response
-
-

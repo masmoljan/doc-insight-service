@@ -5,6 +5,7 @@ Revises: 7293f3328338
 Create Date: 2026-02-19 15:47:17.032021
 
 """
+
 from typing import Sequence, Union
 
 from alembic import op
@@ -14,8 +15,8 @@ from pgvector.sqlalchemy import Vector
 
 
 # revision identifiers, used by Alembic.
-revision: str = '12d4f02a89d4'
-down_revision: Union[str, Sequence[str], None] = '7293f3328338'
+revision: str = "12d4f02a89d4"
+down_revision: Union[str, Sequence[str], None] = "7293f3328338"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

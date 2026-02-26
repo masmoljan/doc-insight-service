@@ -31,6 +31,7 @@ ASK_QUESTION_MAX_LENGTH = 1000
 ASK_TOP_K_MAX = 20
 ASK_DOCUMENT_IDS_MAX = 20
 
+
 class AskRequest(BaseModel):
     question: str = Field(
         min_length=1,
@@ -51,7 +52,9 @@ class AskRequest(BaseModel):
 
     @field_validator("document_ids")
     @classmethod
-    def validate_document_ids(cls, value: list[UUID] | None) -> list[UUID] | None:
+    def validate_document_ids(
+        cls, value: list[UUID] | None
+    ) -> list[UUID] | None:
         return dedupe_document_ids(value, max_items=ASK_DOCUMENT_IDS_MAX)
 
 

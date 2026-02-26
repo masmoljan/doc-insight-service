@@ -29,4 +29,5 @@ class AppConfig(BaseSettings):
         case_sensitive=False,
     )
 
+
 app_config = AppConfig()

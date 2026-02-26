@@ -18,9 +18,11 @@ Return ONLY valid JSON with this shape:
 {{ "answer": "..." }}
 """
 
+
 def build_qa_message(context: str, question: str) -> list[tuple[str, str]]:
     user_prompt = f"Context:\n{context}\n\nQuestion: {question}"
     return [("system", QA_SYSTEM_PROMPT), ("human", user_prompt)]
+
 
 QA_JSON_SCHEMA = {
     "name": "qa_response",
@@ -44,6 +46,7 @@ model = ChatOpenAI(
     temperature=0.3,
     top_p=1,
 )
+
 
 class QAResponseSchema(BaseModel):
     answer: str = Field(description="Final answer based on the context.")
