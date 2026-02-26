@@ -18,7 +18,6 @@ def extract_text_from_pdf(file_bytes: bytes) -> tuple[str, dict[str, Any]]:
     try:
         doc = fitz.open(stream=file_bytes, filetype="pdf")
         metadata = {
-            "title": doc.metadata.get("title"),
             "page_count": doc.page_count,
             "content_type": doc.metadata.get("content_type"),
         }

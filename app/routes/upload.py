@@ -1,8 +1,9 @@
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, File, Request, UploadFile, status
+from pydantic.annotated_handlers import GetJsonSchemaHandler
 
 from app.config import app_config
 from app.services import (
@@ -31,12 +32,20 @@ FILES_PARAM = File(...)
 USER_ID_DEPENDENCY = Depends(get_current_user_id)
 MAX_FILENAME_LENGTH = 255
 
+class SchemaUploadFile(UploadFile):
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls,
+        core_schema: Mapping[str, Any],
+        handler: GetJsonSchemaHandler
+    ) -> dict[str, Any]:
+        return {"type": "string", "format": "binary"}
 
 @router.post("/upload", status_code=status.HTTP_201_CREATED)
 @limiter.limit(app_config.rate_limit_upload)
 async def upload_files(
     request: Request,
-    files: list[UploadFile] = FILES_PARAM,
+    files: list[SchemaUploadFile] = FILES_PARAM,
     session_id: UUID | None = None,
     user_id: UUID | None = USER_ID_DEPENDENCY,
 ):
@@ -109,25 +118,25 @@ async def upload_files(
                     filename=file.filename
                 ),
             )
+        metadata: dict[str, Any] = {"content_type": file.content_type}
+        if pdf_metadata:
+            page_count = pdf_metadata.get("page_count")
+            if page_count is not None:
+                metadata["page_count"] = page_count
 
         filename = Path(file.filename or "unknown").name.strip() or "unknown"
         if len(filename) > MAX_FILENAME_LENGTH:
             filename = filename[:MAX_FILENAME_LENGTH]
         extracted_documents.append(
             {
-                "filename": filename,
                 "content_type": file.content_type,
                 "text": text,
-                "metadata": pdf_metadata,
+                "metadata": metadata
             }
         )
 
     document_metadata = [
-        {
-            "filename": extracted_doc["filename"],
-            "content_type": extracted_doc["content_type"],
-        }
-        for extracted_doc in extracted_documents
+        extracted_doc["metadata"] for extracted_doc in extracted_documents
     ]
     document_texts = [
         extracted_doc["text"] for extracted_doc in extracted_documents
