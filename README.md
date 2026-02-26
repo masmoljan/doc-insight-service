@@ -190,4 +190,5 @@ I used Streamlit to quickly prototype a simple UI for uploading documents and as
 - Upgrade `/ask` endpoint to be history-aware: given chat history and the latest user question that might reference it, reformulate a standalone question (do not answer yet), retrieve relevant chunks, then answer using the retrieved context plus chat history</br>
 - Implement a hybrid user/session flow: a user starts anonymously, then logs in and the session is bound to their account</br>
 - Add NER-base PII detection and redact senstive data before storage and responses
+
 </details>
