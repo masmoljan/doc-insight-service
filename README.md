@@ -41,7 +41,6 @@ EMBEDDING_CACHE_REDIS_URL=redis://:change-me@localhost:6379/1
 EMBEDDING_CACHE_DOC_TTL_SECONDS=43200
 UPLOAD_MAX_FILES=5
 UPLOAD_MAX_FILE_SIZE_BYTES=10485760
-PORT=8000
 API_BASE_URL=http://localhost:8000
 ```
 
@@ -69,8 +68,6 @@ streamlit run ui/streamlit.py
 Start the API first, then open `http://localhost:8501`.
 
 ## API Endpoints
-
-FastAPI auto-generates interactive API docs at `http://localhost:8000/docs`
 
 ### Health
 ```bash
@@ -193,4 +190,5 @@ I used Streamlit to quickly prototype a simple UI for uploading documents and as
 - Store conversations and messages for authenticated users to enable conversation storage and follow-up conversations</br>
 - Upgrade `/ask` endpoint to be history-aware: given chat history and the latest user question that might reference it, reformulate a standalone question (do not answer yet), retrieve relevant chunks, then answer using the retrieved context plus chat history</br>
 - Implement a hybrid user/session flow: a user starts anonymously, then logs in and the session is bound to their account</br>
+- Add NER-base PII detection and redact senstive data before storage and responses
 </details>
