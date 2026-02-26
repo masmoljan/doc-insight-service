@@ -63,6 +63,12 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
+If running locally, make sure to run Database and Redis.
+The simplest way is to reuse Docker images:
+```bash
+docker-compose up db redis
+```
+
 ## Streamlit demo
 `Streamlit has to be installed locally or in virutal environment`
 ```bash
