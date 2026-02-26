@@ -3,7 +3,7 @@ name: Run Linting and Formatting
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 
 jobs:
