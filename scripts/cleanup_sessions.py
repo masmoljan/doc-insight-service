@@ -23,9 +23,7 @@ DELETE_DOCUMENTS_SQL = text(
     'SELECT id FROM "Sessions" WHERE expires_at <= :now'
     ")"
 )
-DELETE_SESSIONS_SQL = text(
-    'DELETE FROM "Sessions" WHERE expires_at <= :now'
-)
+DELETE_SESSIONS_SQL = text('DELETE FROM "Sessions" WHERE expires_at <= :now')
 engine = create_engine(DATABASE_URL)
 
 
@@ -35,6 +33,7 @@ def cleanup_expired_sessions() -> int:
         connection.execute(DELETE_DOCUMENTS_SQL, {"now": now})
         result = connection.execute(DELETE_SESSIONS_SQL, {"now": now})
         return result.rowcount or 0
+
 
 def main() -> None:
     interval_minutes = int(os.getenv("SESSION_CLEANUP_INTERVAL_MINUTES", "60"))
